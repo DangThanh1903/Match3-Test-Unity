@@ -24,4 +24,21 @@ public class Utils
 
         return result;
     }
+    public static HashSet<NormalItem.eNormalType> GetSurroundingItemTypes(Cell cell)
+    {
+        HashSet<NormalItem.eNormalType> surroundingTypes = new HashSet<NormalItem.eNormalType>();
+        if (cell.NeighbourUp?.Item is NormalItem upItem) surroundingTypes.Add(upItem.ItemType);
+        if (cell.NeighbourBottom?.Item is NormalItem bottomItem) surroundingTypes.Add(bottomItem.ItemType);
+        if (cell.NeighbourLeft?.Item is NormalItem leftItem) surroundingTypes.Add(leftItem.ItemType);
+        if (cell.NeighbourRight?.Item is NormalItem rightItem) surroundingTypes.Add(rightItem.ItemType);
+        return surroundingTypes;
+    }
+
+    public static NormalItem.eNormalType GetLeastFrequentType(Dictionary<NormalItem.eNormalType, int> typeCounts, HashSet<NormalItem.eNormalType> surroundingTypes)
+    {
+        return typeCounts
+            .OrderBy(typeCount => typeCount.Value)
+            .Select(typeCount => typeCount.Key)
+            .FirstOrDefault(type => !surroundingTypes.Contains(type));
+    }
 }

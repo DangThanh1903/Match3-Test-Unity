@@ -138,22 +138,51 @@ public class Board
 
     internal void FillGapsWithNewItems()
     {
+        // Count item types and track empty cell locations
+        Dictionary<NormalItem.eNormalType, int> typeCounts = new Dictionary<NormalItem.eNormalType, int>();
+        List<(int x, int y)> emptyCells = new List<(int, int)>();
+
         for (int x = 0; x < boardSizeX; x++)
         {
             for (int y = 0; y < boardSizeY; y++)
             {
                 Cell cell = m_cells[x, y];
-                if (!cell.IsEmpty) continue;
+                if (cell.IsEmpty)
+                {
+                    emptyCells.Add((x, y));
+                    continue;
+                }
 
-                NormalItem item = new NormalItem();
-
-                item.SetType(Utils.GetRandomNormalType());
-                item.SetView();
-                item.SetViewRoot(m_root);
-
-                cell.Assign(item);
-                cell.ApplyItemPosition(true);
+                // Count existing item types
+                if (cell.Item is NormalItem normalItem)
+                {
+                    if (typeCounts.ContainsKey(normalItem.ItemType))
+                        typeCounts[normalItem.ItemType]++;
+                    else
+                        typeCounts[normalItem.ItemType] = 1;
+                }
             }
+        }
+
+        // Fill empty cells
+        foreach (var (x, y) in emptyCells)
+        {
+            Cell cell = m_cells[x, y];
+
+            // Get surrounding item types using the utility method
+            HashSet<NormalItem.eNormalType> surroundingTypes = Utils.GetSurroundingItemTypes(cell);
+
+            // Find the least frequent type that is not in the surrounding types
+            NormalItem.eNormalType leastFrequentType = Utils.GetLeastFrequentType(typeCounts, surroundingTypes);
+
+            // Create new item
+            NormalItem item = new NormalItem();
+            item.SetType(leastFrequentType != default ? leastFrequentType : Utils.GetRandomNormalType());
+            item.SetView();
+            item.SetViewRoot(m_root);
+
+            cell.Assign(item);
+            cell.ApplyItemPosition(true);
         }
     }
 
