@@ -461,6 +461,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelConditionView: {fileID: 2032806873}
   btnPause: {fileID: 264367786}
+  btnRestart: {fileID: 1315704901}
 --- !u!1 &459018135
 GameObject:
   m_ObjectHideFlags: 0
@@ -2636,6 +2637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_uiMenu: {fileID: 2110808864}
+  itemTextures: {fileID: 11400000, guid: bd346c67ef0ffd34d8c73050b9e4b737, type: 2}
 --- !u!4 &2136919903
 Transform:
   m_ObjectHideFlags: 0

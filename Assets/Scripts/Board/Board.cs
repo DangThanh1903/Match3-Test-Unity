@@ -15,6 +15,8 @@ public class Board
         ALL
     }
 
+    private Scriptable itemTextures;
+
     private int boardSizeX;
 
     private int boardSizeY;
@@ -25,8 +27,10 @@ public class Board
 
     private int m_matchMin;
 
-    public Board(Transform transform, GameSettings gameSettings)
+    public Board(Transform transform, GameSettings gameSettings, Scriptable textures)
     {
+        itemTextures = textures;
+
         m_root = transform;
 
         m_matchMin = gameSettings.MatchesMin;
@@ -81,6 +85,8 @@ public class Board
                 Cell cell = m_cells[x, y];
                 NormalItem item = new NormalItem();
 
+                item.Initialize(itemTextures); 
+
                 List<NormalItem.eNormalType> types = new List<NormalItem.eNormalType>();
                 if (cell.NeighbourBottom != null)
                 {
@@ -109,6 +115,7 @@ public class Board
             }
         }
     }
+
 
     internal void Shuffle()
     {
@@ -177,14 +184,16 @@ public class Board
 
             // Create new item
             NormalItem item = new NormalItem();
+            item.Initialize(itemTextures); // Initialize with Scriptable object
             item.SetType(leastFrequentType != default ? leastFrequentType : Utils.GetRandomNormalType());
-            item.SetView();
+            item.SetView(); // Set view after initialization
             item.SetViewRoot(m_root);
 
             cell.Assign(item);
             cell.ApplyItemPosition(true);
         }
     }
+
 
     internal void ExplodeAllItems()
     {

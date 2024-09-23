@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     private BoardController m_boardController;
 
     [SerializeField] private UIMainManager m_uiMenu;
+    [SerializeField] private Scriptable itemTextures;
 
     private LevelCondition m_levelCondition;
 
@@ -83,7 +84,7 @@ public class GameManager : MonoBehaviour
     public void LoadLevel(eLevelMode mode)
     {
         m_boardController = new GameObject("BoardController").AddComponent<BoardController>();
-        m_boardController.StartGame(this, m_gameSettings);
+        m_boardController.StartGame(this, m_gameSettings, itemTextures);
 
         if (mode == eLevelMode.MOVES)
         {

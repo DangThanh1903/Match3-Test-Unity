@@ -31,7 +31,9 @@ public class BoardController : MonoBehaviour
 
     private bool m_gameOver;
 
-    public void StartGame(GameManager gameManager, GameSettings gameSettings)
+    private Scriptable itemTextures;
+
+    public void StartGame(GameManager gameManager, GameSettings gameSettings, Scriptable itemTextures)
     {
         m_gameManager = gameManager;
 
@@ -41,7 +43,7 @@ public class BoardController : MonoBehaviour
 
         m_cam = Camera.main;
 
-        m_board = new Board(this.transform, gameSettings);
+        m_board = new Board(this.transform, gameSettings, itemTextures);
 
         Fill();
     }

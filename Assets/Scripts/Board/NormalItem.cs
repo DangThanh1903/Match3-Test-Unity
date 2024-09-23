@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class NormalItem : Item
 {
+    private Scriptable itemTextures;
+
+    public void Initialize(Scriptable textures)
+    {
+        itemTextures = textures;
+    }
     public enum eNormalType
     {
         TYPE_ONE,
@@ -51,6 +57,38 @@ public class NormalItem : Item
         }
 
         return prefabname;
+    }
+
+    protected override Sprite GetSprite()
+    {
+        Sprite sprite = null;
+
+        switch (ItemType)
+        {
+            case eNormalType.TYPE_ONE:
+                sprite = itemTextures.itemSprites[0]; 
+                break;
+            case eNormalType.TYPE_TWO:
+                sprite = itemTextures.itemSprites[1]; // Second sprite
+                break;
+            case eNormalType.TYPE_THREE:
+                sprite = itemTextures.itemSprites[2]; // Third sprite
+                break;
+            case eNormalType.TYPE_FOUR:
+                sprite = itemTextures.itemSprites[3]; // Fourth sprite
+                break;
+            case eNormalType.TYPE_FIVE:
+                sprite = itemTextures.itemSprites[4]; // Fifth sprite
+                break;
+            case eNormalType.TYPE_SIX:
+                sprite = itemTextures.itemSprites[5]; // Sixth sprite
+                break;
+            case eNormalType.TYPE_SEVEN:
+                sprite = itemTextures.itemSprites[6]; // Seventh sprite
+                break;
+        }
+
+        return sprite;
     }
 
     internal override bool IsSameType(Item other)

@@ -14,17 +14,35 @@ public class Item
 
     public virtual void SetView()
     {
-        string prefabname = GetPrefabName();
+        Sprite sprite = GetSprite(); // Get the sprite from the new method
 
-        if (!string.IsNullOrEmpty(prefabname))
+        if (sprite != null)
         {
-            GameObject prefab = Resources.Load<GameObject>(prefabname);
-            if (prefab)
+            SetSprite(sprite); // Assuming you have a method to set the sprite on the item's view
+        }
+    }
+
+    private void SetSprite(Sprite sprite)
+    {
+        if (View == null)
+        {
+            // Create a new GameObject for the sprite
+            View = new GameObject("ItemView").transform;
+            var spriteRenderer = View.gameObject.AddComponent<SpriteRenderer>();
+            spriteRenderer.sprite = sprite;
+        }
+        else
+        {
+            // Update the existing SpriteRenderer
+            var spriteRenderer = View.GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null)
             {
-                View = GameObject.Instantiate(prefab).transform;
+                spriteRenderer.sprite = sprite;
             }
         }
     }
+
+    protected virtual Sprite GetSprite() { return null; }
 
     protected virtual string GetPrefabName() { return string.Empty; }
 
