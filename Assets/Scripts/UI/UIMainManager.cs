@@ -11,6 +11,8 @@ public class UIMainManager : MonoBehaviour
 
     private GameManager m_gameManager;
 
+    private UIPanelGame m_uipanelGame;
+
     private void Awake()
     {
         m_menuList = GetComponentsInChildren<IMenu>(true);
@@ -21,6 +23,10 @@ public class UIMainManager : MonoBehaviour
         for (int i = 0; i < m_menuList.Length; i++)
         {
             m_menuList[i].Setup(this);
+            if (m_menuList[i] is UIPanelGame)
+            {
+                m_uipanelGame = m_menuList[i] as UIPanelGame;
+            }
         }
     }
 
@@ -90,13 +96,7 @@ public class UIMainManager : MonoBehaviour
 
     internal Text GetLevelConditionView()
     {
-        UIPanelGame game = m_menuList.Where(x => x is UIPanelGame).Cast<UIPanelGame>().FirstOrDefault();
-        if (game)
-        {
-            return game.LevelConditionView;
-        }
-
-        return null;
+        return m_uipanelGame != null ? m_uipanelGame.LevelConditionView : null;
     }
 
     internal void ShowPauseMenu()
