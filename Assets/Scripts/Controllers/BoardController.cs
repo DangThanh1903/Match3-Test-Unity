@@ -303,4 +303,12 @@ public class BoardController : MonoBehaviour
 
         m_potentialMatch.Clear();
     }
+
+    public void RestartBoard()
+    {
+        if (m_board != null)
+        {
+            m_board.Restart(); // Call the restart method in Board
+        }
+    }
 }

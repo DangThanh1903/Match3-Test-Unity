@@ -135,4 +135,12 @@ public class GameManager : MonoBehaviour
             m_levelCondition = null;
         }
     }
+
+    public void RestartGame()
+    {
+        if (m_boardController != null)
+        {
+            m_boardController.RestartBoard(); // Call the method in BoardController
+        }
+    }
 }

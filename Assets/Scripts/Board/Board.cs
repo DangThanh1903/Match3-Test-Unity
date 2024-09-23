@@ -704,4 +704,18 @@ public class Board
             }
         }
     }
+
+    public void Restart()
+    {
+        // Clear the current board
+        Clear();
+
+        m_cells = new Cell[boardSizeX, boardSizeY];
+
+        // Create a new board
+        CreateBoard();
+        
+        // Optionally fill the board with items
+        Fill();
+    }
 }
