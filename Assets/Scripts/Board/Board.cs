@@ -296,24 +296,22 @@ public class Board
     {
         if (matches == null || matches.Count < m_matchMin) return eMatchDirection.NONE;
 
-        var listH = matches.Where(x => x.BoardX == matches[0].BoardX).ToList();
-        if (listH.Count == matches.Count)
+        bool isVertical = true;
+        bool isHorizontal = true;
+
+        int firstX = matches[0].BoardX;
+        int firstY = matches[0].BoardY;
+
+        foreach (var cell in matches)
         {
-            return eMatchDirection.VERTICAL;
+            if (cell.BoardX != firstX) isVertical = false;
+            if (cell.BoardY != firstY) isHorizontal = false;
+            if (!isHorizontal && !isVertical) break;
         }
 
-        var listV = matches.Where(x => x.BoardY == matches[0].BoardY).ToList();
-        if (listV.Count == matches.Count)
-        {
-            return eMatchDirection.HORIZONTAL;
-        }
-
-        if (matches.Count > 5)
-        {
-            return eMatchDirection.ALL;
-        }
-
-        return eMatchDirection.NONE;
+        if (isHorizontal) return eMatchDirection.HORIZONTAL;
+        if (isVertical) return eMatchDirection.VERTICAL;
+        return matches.Count > 5 ? eMatchDirection.ALL : eMatchDirection.NONE;
     }
 
     internal List<Cell> FindFirstMatch()
