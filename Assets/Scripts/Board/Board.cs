@@ -178,8 +178,11 @@ public class Board
         cell2.Free();
         cell2.Assign(item);
 
-        item.View.DOMove(cell2.transform.position, 0.3f);
-        item2.View.DOMove(cell1.transform.position, 0.3f).OnComplete(() => { if (callback != null) callback(); });
+        //change
+        Sequence swapSequence = DOTween.Sequence();
+        swapSequence.Append(item.View.DOMove(cell2.transform.position, 0.3f));
+        swapSequence.Join(item2.View.DOMove(cell1.transform.position, 0.3f));
+        swapSequence.OnComplete(() => callback?.Invoke());
     }
 
     public List<Cell> GetHorizontalMatches(Cell cell)
